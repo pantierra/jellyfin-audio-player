@@ -2,7 +2,6 @@ import { useTypedSelector, AppState } from '@/store';
 import { parseISO } from 'date-fns';
 import { ALPHABET_LETTERS } from '@/CONSTANTS';
 import { createSelector } from '@reduxjs/toolkit';
-import { SectionListData } from 'react-native';
 import { MusicArtist } from './types';
 
 /**
@@ -51,7 +50,15 @@ export const selectAlbumsByArtist = createSelector(
     albumsByArtist,
 );
 
-export type SectionedId = SectionListData<string[]>;
+/**
+ * A list of items grouped under a section label (e.g. a letter of the alphabet)
+ */
+export interface Section<T> {
+    label: string;
+    data: T[];
+}
+
+export type SectionedId = Section<string[]>;
 
 /**
  * Splits a set of albums into a list that is split by alphabet letters
@@ -77,7 +84,7 @@ function splitAlbumsByAlphabet(state: AppState['music']['albums']): SectionedId[
 
         // GUARD: Check if the row is overflowing. If so, add a new row.
         if (section.data[row].length >= 2) {
-            (section.data as string[][]).push([]);
+            section.data.push([]);
         }
     });
 
@@ -94,7 +101,7 @@ export const selectAlbumsByAlphabet = createSelector(
 
 export type SectionArtistItem = MusicArtist;
 
-export type SectionedArtist = SectionListData<MusicArtist>;
+export type SectionedArtist = Section<MusicArtist>;
 
 function splitArtistsByAlphabet(state: AppState['music']['artists']) {
     const artists = Object.values(state.entities);
@@ -109,7 +116,7 @@ function splitArtistsByAlphabet(state: AppState['music']['artists']) {
         const section = sections[index >= 0 ? index : 26];
 
         // Add the album to the row
-        (section.data as unknown as MusicArtist[]).push(artist);
+        section.data.push(artist);
     });
 
     return sections;

@@ -25,7 +25,7 @@ function MusicStack() {
     return (
         <SafeAreaProvider>
             <GestureHandlerRootView style={{ flex: 1 }}>
-                <StatusBar backgroundColor="transparent" barStyle={scheme === 'dark' ? 'light-content' : 'dark-content'} />
+                <StatusBar barStyle={scheme === 'dark' ? 'light-content' : 'dark-content'} />
                 <Stack.Navigator initialRouteName="RecentAlbums" screenOptions={{
                     headerTintColor: defaultStyles.themeColor.color,
                     headerTitleStyle: defaultStyles.stackHeader,

@@ -37,7 +37,7 @@ jobs:
     - name: Set up Node
       uses: actions/setup-node@v7
       with:
-        node-version: '22'
+        node-version-file: '.nvmrc'
         cache: 'pnpm'
     - name: Install fastlane
       run: bundle install -j 6
@@ -87,7 +87,7 @@ jobs:
     - name: Set up Node
       uses: actions/setup-node@v7
       with:
-        node-version: '22'
+        node-version-file: '.nvmrc'
         cache: 'pnpm'
     - name: Install Node dependencies
       run: pnpm i

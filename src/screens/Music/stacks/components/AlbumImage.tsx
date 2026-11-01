@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import FastImage, { FastImageProps, Source } from '@d11/react-native-fast-image';
-import { Dimensions } from 'react-native';
+import { Dimensions, ImageStyle, StyleProp } from 'react-native';
 import { useUserOrSystemScheme } from '@/components/Colors';
 
 const Screen = Dimensions.get('screen');
@@ -22,16 +22,21 @@ const Container = styled(FastImage)`
     margin-bottom: 5px;
 `;
 
-export interface AlbumImageProps extends FastImageProps {
-    source: number | Omit<Source, 'uri'> & {
+export interface AlbumImageProps extends Omit<FastImageProps, 'style'> {
+    source?: number | Omit<Source, 'uri'> & {
         uri?: string;
     };
+    // NOTE: FastImage types its `style` prop using style types that React
+    // Native no longer exports (since 0.88), which breaks its typing. Use
+    // React Native's own `ImageStyle` here instead.
+    style?: StyleProp<ImageStyle>;
 }
 
 const defaultImageDark = require('@/assets/images/empty-album-dark.png');
 const defaultImageLight = require('@/assets/images/empty-album-light.png');
 
-function AlbumImage(props: FastImageProps) {
+function AlbumImage({ style, ...rest }: AlbumImageProps) {
+    const props = { ...rest, style: style as FastImageProps['style'] };
     const colorScheme = useUserOrSystemScheme();
     const defaultImage = colorScheme === 'light' ? defaultImageLight : defaultImageDark;
 

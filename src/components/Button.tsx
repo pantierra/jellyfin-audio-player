@@ -43,7 +43,7 @@ const ButtonText = styled.Text<{ active?: boolean, size: ButtonSize }>`
     `}
 `;
 
-const Button = React.forwardRef<View, ButtonProps>(function Button(props, ref) {
+const Button = React.forwardRef<React.ComponentRef<typeof View>, ButtonProps>(function Button(props, ref) {
     const { icon: Icon, title, disabled, size = 'default',  ...rest } = props;
     const defaultStyles = useDefaultStyles();
     const [isPressed, setPressed] = useState(false);
