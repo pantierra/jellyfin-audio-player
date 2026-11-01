@@ -7,15 +7,20 @@ import ProgressTrack, {
     getSeconds,
     ProgressTrackContainer
 } from '@/components/Progresstrack';
-import { Gesture, GestureDetector, gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import {
+    GestureDetector,
+    useExclusiveGestures,
+    usePanGesture,
+    useTapGesture,
+} from 'react-native-gesture-handler';
 import Reanimated, {
     useSharedValue,
     useAnimatedStyle,
     withTiming,
     Easing,
     useDerivedValue,
-    runOnJS,
 } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import ReText from '@/components/ReText';
 import useCurrentTrack from '@/utility/useCurrentTrack';
 import useDefaultStyles from '@/components/Colors';
@@ -96,30 +101,40 @@ function ProgressBar() {
         }
     }, [pos, dur]);
     
-    const pan = Gesture.Pan()
-        .minDistance(1)
-        .activeOffsetX(1)
-        .activeOffsetY(1)
-        .onBegin((e) => {
+    const pan = usePanGesture({
+        minDistance: 1,
+        activeOffsetX: 1,
+        activeOffsetY: 1,
+        onBegin: (e) => {
+            'worklet';
             isDragging.value = true;
             offset.value = Math.min(Math.max(DRAG_HANDLE_SIZE / 2, e.x), width.value - DRAG_HANDLE_SIZE / 2);
-        }).onUpdate((e) => {
+        },
+        onUpdate: (e) => {
+            'worklet';
             offset.value = Math.min(Math.max(DRAG_HANDLE_SIZE / 2, e.x), width.value - DRAG_HANDLE_SIZE / 2);
-        }).onFinalize(() => {
+        },
+        onFinalize: () => {
+            'worklet';
             pos.value = (offset.value - DRAG_HANDLE_SIZE / 2) / (width.value - DRAG_HANDLE_SIZE) * dur.value;
             isDragging.value = false;
-            runOnJS(TrackPlayer.seekTo)(pos.value);
-        });
-    const tap = Gesture.Tap()
-        .onBegin((e) => {
+            scheduleOnRN(TrackPlayer.seekTo, pos.value);
+        },
+    });
+    const tap = useTapGesture({
+        onBegin: (e) => {
+            'worklet';
             isDragging.value = true;
             offset.value = Math.min(Math.max(DRAG_HANDLE_SIZE / 2, e.x), width.value - DRAG_HANDLE_SIZE / 2);
-        }).onFinalize(() => {
+        },
+        onFinalize: () => {
+            'worklet';
             pos.value = (offset.value - DRAG_HANDLE_SIZE / 2) / (width.value - DRAG_HANDLE_SIZE) * dur.value;
             isDragging.value = false;
-            runOnJS(TrackPlayer.seekTo)(pos.value);
-        });
-    const gesture = Gesture.Exclusive(pan, tap);
+            scheduleOnRN(TrackPlayer.seekTo, pos.value);
+        },
+    });
+    const gesture = useExclusiveGestures(pan, tap);
 
     useEffect(() => {
         pos.value = position;
@@ -215,4 +230,6 @@ function ProgressBar() {
     );
 }
 
-export default gestureHandlerRootHOC(ProgressBar);
+// NOTE: Gesture Handler 3 removed `gestureHandlerRootHOC`. The Player modal
+// already wraps this component in a `GestureHandlerRootView`.
+export default ProgressBar;

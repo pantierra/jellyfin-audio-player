@@ -54,7 +54,7 @@ const Playlists: React.FC = () => {
     }, []);
 
     // Set callbacks
-    const retrieveData = useCallback(() => dispatch(fetchAllPlaylists()), [dispatch]);
+    const retrieveData = useCallback(() => { dispatch(fetchAllPlaylists()); }, [dispatch]);
     const selectAlbum = useCallback((id: string) => {
         navigation.navigate('Playlist', { id });
     }, [navigation]);

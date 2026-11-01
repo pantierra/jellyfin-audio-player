@@ -35,7 +35,7 @@ const IconWrapper = styled.View`
 
 function Input({ icon = null, style, testID, ...rest }: InputProps) {
     const defaultStyles = useDefaultStyles();
-    const inputRef = useRef<TextInput | null>(null);
+    const inputRef = useRef<React.ComponentRef<typeof TextInput>>(null);
 
     const handlePress = useCallback(() => inputRef.current?.focus(), []);
 

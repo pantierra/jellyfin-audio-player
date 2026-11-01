@@ -64,8 +64,8 @@ function Screens() {
                                 name: 'music.note',
                             },
                             android: {
-                                type: 'drawableResource',
-                                name: 'ic_tab_music',
+                                type: 'image',
+                                source: { uri: 'ic_tab_music' },
                             }
                         }),
                     }}
@@ -81,8 +81,8 @@ function Screens() {
                             },
                             android: {
                                 tabBarIcon: {
-                                    type: 'drawableResource',
-                                    name: 'ic_tab_search',
+                                    type: 'image',
+                                    source: { uri: 'ic_tab_search' },
                                 }
                             }
                         }),
@@ -99,8 +99,8 @@ function Screens() {
                             },
                             android: {
                                 tabBarIcon: {
-                                    type: 'drawableResource',
-                                    name: 'ic_tab_downloads',
+                                    type: 'image',
+                                    source: { uri: 'ic_tab_downloads' },
                                 }
                             }
                         }),
@@ -117,8 +117,8 @@ function Screens() {
                                 name: 'gearshape',
                             },
                             android: {
-                                type: 'drawableResource',
-                                name: 'ic_tab_settings',
+                                type: 'image',
+                                source: { uri: 'ic_tab_settings' },
                             }
                         }),
                     }}

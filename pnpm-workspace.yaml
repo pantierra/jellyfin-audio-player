@@ -2,6 +2,6 @@ onlyBuiltDependencies:
   - '@sentry/cli'
   - '@shopify/react-native-skia'
 patchedDependencies:
-  react-native-webview: patches/react-native-webview.patch
-  react-native-track-player: patches/react-native-track-player.patch
   '@iternio/react-native-auto-play': patches/@iternio__react-native-auto-play.patch
+  react-native-track-player: patches/react-native-track-player.patch
+  react-native-webview: patches/react-native-webview.patch

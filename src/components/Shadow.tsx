@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ViewStyle } from 'react-native';
 
 export const shadow = StyleSheet.create({
     small: {
@@ -26,7 +26,7 @@ export const shadow = StyleSheet.create({
 
 type SizeProp = 'small' | 'medium';
 
-const shadowMap: Record<SizeProp, StyleSheet.NamedStyles<unknown>> = {
+const shadowMap: Record<SizeProp, ViewStyle> = {
     'small': shadow.small,
     'medium': shadow.medium,
 };
