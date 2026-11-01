@@ -63,7 +63,7 @@
 	<key>UISupportsDocumentBrowser</key>
 	<true/>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+	<true/>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
